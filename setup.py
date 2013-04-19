@@ -8,7 +8,7 @@ README_PATH = os.path.join(os.path.abspath(os.path.dirname(__file__)),
 dependencies = [
     'djangotoolbox',
     'django>=1.4.1, <1.5',
-    'django-cms>=2.3.1pbs, <2.3.6',
+    'django-cms<2.3.6',
 ]
 
 

@@ -9,7 +9,8 @@ from decorators import \
     (restricted__has_delete_permission__override,
      restricted__get_readonly_fields__override,
      restricted__formfield_for_manytomany__override,
-     restricted__queryset__override)
+     restricted__queryset__override,
+     append_restricted_fields)
 from mock import Mock
 
 counter = 0
@@ -99,7 +100,7 @@ def create_globalpagepermission(**kwargs):
     gpp.save()
     return gpp
 
-
+@append_restricted_fields
 class ToBeDecoratedModelAdmin(ModelAdmin):
 
     def formfield_for_manytomany(self, db_field, request, **kwargs):
@@ -429,7 +430,8 @@ class TestDecorators(TestCase):
 
         self.set_request_user(self.main_user)
         dma = DecoratedModelAdmin(TestModel, admin_site=None)
-        self.assertEquals(dma.get_readonly_fields(self.request), ['publish_date'])
+        self.assertEquals(dma.get_readonly_fields(self.request), \
+                          ['publish_date', 'pbs_provided', 'read_only'])
 
     def test_get_readonly_fields2(self):
         allways_ro=['publish_date']
